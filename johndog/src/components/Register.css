@@ -1,0 +1,12 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    width: 40%;
+}
+
+.form-mt {
+    margin-top: 25px;
+}

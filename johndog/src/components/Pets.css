@@ -1,0 +1,14 @@
+.pet-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.row-pet {
+    
+    width: 80%;
+}
+
+.pet-mt {
+    margin-top: 40px;
+}
