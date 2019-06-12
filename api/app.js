@@ -13,7 +13,6 @@ const port = process.env.PORT;
 
 var favicon = require('serve-favicon')
  
-var app = express()
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
