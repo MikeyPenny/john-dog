@@ -11,6 +11,9 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const port = process.env.PORT;
 
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/build'));
+
 var favicon = require('serve-favicon')
  
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
@@ -42,9 +45,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(express.static('public'));
-app.use(express.static('public/build'));
 
 app.use('/auth', require('./routes/auth'));
 app.use('/petCrud', require('./routes/petCrud'));
