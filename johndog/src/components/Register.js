@@ -24,7 +24,7 @@ export default class Register extends Component {
         const registerData = this.state
 
         axios({
-            url: 'http://localhost:3000/auth/signup',
+            url: `${process.env.REACT_APP_BACK_END_BASE_URL}/auth/signup`,
             data: registerData,
             method: 'post',
             withCredentials: true

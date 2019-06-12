@@ -10,6 +10,8 @@ import Found from './components/Found';
 import Register from './components/Register';
 import Login from './components/Login';
 import axios from 'axios';
+import PetDetails from './components/PetDetails';
+import PetFound from './components/PetFound';
 
 
 
@@ -28,7 +30,7 @@ class App extends Component {
 
   componentDidMount() {
     axios({
-      url: 'http://localhost:3000/auth/get-user',
+      url: `${process.env.REACT_APP_BACK_END_BASE_URL}/auth/get-user`,
       method: 'post',
       withCredentials: true
     })
@@ -53,7 +55,7 @@ class App extends Component {
     axios({
       method: 'get',
       withCredentials: true,
-      url: 'http://localhost:3000/auth/logout'
+      url: `${process.env.REACT_APP_BACK_END_BASE_URL}/auth/logout`
     })
     .then(() => {
       debugger
@@ -94,6 +96,9 @@ class App extends Component {
               <div className="navbar-start">
                 <Link to="/" className="navbar-item">Home</Link>
                 <Link to="/myPack" className="navbar-item">My Pack</Link>
+                
+                <Link to="/pet-details" className="navbar-item">Show Pet Details</Link>
+     
                 
                 <div className="navbar-item has-dropdown is-hoverable">
                   <Link to="/" className="navbar-link">
@@ -142,11 +147,13 @@ class App extends Component {
 
         <Switch>
           <Route exact path="/" component={Home}/>
+          <Route path="/myPack/:id" render={(props) => <PetDetails {...props} /> } />
           <Route path="/myPack" component={Pack}/>
           <Route path="/newPet" component={Pets}/>
           <Route path="/found" component={Found}/>
           <Route path="/register" component={Register}/>
           <Route path="/login" render={(props) => <Login {...props} fetchUser={this.fetchUser}/>} />
+          <Route path="/found/:id" render={(props) => <PetFound {...props} /> } />
         </Switch>
       </Router>
     )

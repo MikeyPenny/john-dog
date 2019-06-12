@@ -21,7 +21,7 @@ export default class Login extends Component {
     submitForm = (e) => {
         e.preventDefault();
         axios({
-            url: 'http://localhost:3000/auth/login',
+            url: `${process.env.REACT_APP_BACK_END_BASE_URL}/auth/login`,
             data: this.state,
             method: 'post',
             withCredentials: true

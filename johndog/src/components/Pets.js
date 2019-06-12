@@ -6,6 +6,7 @@ export default class Pets extends Component {
 
     constructor(props) {
         super(props);
+        
         this.handleChange = this.handleChange.bind(this);
         this.filenput = React.createRef();
         this.submitForm = this.submitForm.bind(this);
@@ -23,17 +24,17 @@ export default class Pets extends Component {
         vaccines: [],
         medicines: [],
         injuresOrDiseases: [],
-        comments: ""
+        comments: "",
+        vaccine : {
+            vaccineName: "",
+            expirationDate: ""
+        },
+        medicine : "",
+        injureOrDisease: ""
     }
 
-    vaccine = {
-        vaccineName: "",
-        expirationDate: ""
-    }
 
-    medicine = "";
-
-    injureOrDisease = "";
+    
 
     handleChange = (e) => {
         this.setState({
@@ -42,45 +43,52 @@ export default class Pets extends Component {
     }
 
     handleVaccineName = (e) => {
-        this.vaccine.vaccineName = e.target.value;
+        this.setState({ 
+            vaccineName: e.target.value 
+        });
     }
 
     handleVaccineExpiration = (e) => {
-        this.vaccine.expirationDate = e.target.value;
+        this.setState({ 
+            expirationDate: e.target.value
+        });
     }
 
     setVaccinesOnState = (e) => {
         e.preventDefault();
-        let vaccines = [...this.state.vaccines];
-        vaccines.push(this.vaccine);
-        this.setState({vaccines: vaccines});
+        let nameOfVaccine = this.state.vaccineName;
+        let expVaccine = this.state.expirationDate;
+        let vaccineTemp = {
+            vaccineName: nameOfVaccine,
+            expirationDate: expVaccine
+        }
+        let vaccinList = [...this.state.vaccines];
+        vaccinList.push(vaccineTemp);
+        debugger
+        this.setState({vaccines: vaccinList});
         
     }
 
     handleMedicineChange = (e) => {
-        this.medicine = e.target.value;
+        this.setState({ medicine: e.target.value});
     }
 
     setMedicineOnState = (e) => {
         e.preventDefault();
         let medicines = [...this.state.medicines];
-        medicines.push(this.medicine);
+        medicines.push(this.state.medicine);
         this.setState({ medicines: medicines });
     }
 
     handleInjureOrDiseaseChange = (e) => {
-        this.injureOrDisease = e.target.value;
+        this.setState({ injureOrDisease: e.target.value });
     }
 
     setInjureOrDiseaseState = (e) => {
         e.preventDefault();
         let injureDisease = [...this.state.injuresOrDiseases];
-        injureDisease.push(this.injureOrDisease);
+        injureDisease.push(this.state.injureOrDisease);
         this.setState({injuresOrDiseases : injureDisease});
-    }
-
-    handleCommentChange = (e) =>{
-        this.setState({ comments: e.target.value }); 
     }
 
     submitForm =  (e) => {
@@ -89,7 +97,7 @@ export default class Pets extends Component {
         let formData = new FormData(form);
 
         axios({
-            url: 'http://localhost:3000/petCrud/newDoggie',
+            url: `${process.env.REACT_APP_BACK_END_BASE_URL}/petCrud/newDoggie`,
             data: formData,
             method: 'post',
             headers: {'Content-Type': 'multipart/form-data'},
@@ -103,6 +111,23 @@ export default class Pets extends Component {
             
         });
 
+    }
+
+    getQRCode = () => {
+        axios({
+            url: 'qr/custom',
+            data: this.state,
+            method: 'post',
+            headers: {'Content-Type': 'multipart/form-data'},
+            withCredentials: true
+        })
+        .then((response) => {
+            this.props.history.push('/myPack');
+        })
+        .catch((err) => {
+            this.setState({ err });
+            
+        });
     }
 
     render() {
@@ -135,7 +160,7 @@ export default class Pets extends Component {
         );
 
         return (
-            <form onSubmit={this.submitForm} className="pet-container" >
+            <form onSubmit={this.submitForm} className="pet-container" ref={this.filenput} >
                 <div className="row-pet pet-mt">
                     <div className="field is-horizontal">
                         <div className="field-label is-normal">
@@ -144,7 +169,7 @@ export default class Pets extends Component {
                         <div className="field-body">
                             <div className="file">
                                 <label className="file-label">
-                                    <input type="file" name="picture" className="file-input" ref={this.filenput} 
+                                    <input type="file" name="picture" className="file-input"  
                                     onChange={this.handleChange} value={this.state.picture}/>
                                     <span className="file-cta">
                                         <span className="file-icon">
@@ -414,7 +439,7 @@ export default class Pets extends Component {
                         <label className="label">Comments</label>
                         <div className="control">
                             <textarea className="textarea" name="comments" 
-                            placeholder="Tell us something important about your dog" onChange={this.handleCommentChange}></textarea>
+                            placeholder="Tell us something important about your dog" onChange={this.handleChange}></textarea>
                         </div>
                     </div>
                     <div className="field is-grouped">

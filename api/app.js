@@ -1,14 +1,14 @@
-require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+require('dotenv').config();
+
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-
 const port = process.env.PORT;
 
 
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
 });
 
 app.use(cors({
-    origin: ["http://localhost:3001", "localhost:3001"],
+    origin: ["http://localhost:3000", "localhost:3000"],
     credentials: true
 }));
 
@@ -39,7 +39,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname + 'public')));
+
+app.use(express.static('public'));
 
 app.use('/auth', require('./routes/auth'));
 app.use('/petCrud', require('./routes/petCrud'));

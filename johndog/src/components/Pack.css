@@ -1,0 +1,18 @@
+.wolves-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.wolves-row {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.card {
+    width: 60%;
+}

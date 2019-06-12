@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
 const Pet = require('../models/pet');
+const User = require('../models/user');
 const path = require('path');
 const multer = require('multer');
 
 var upload = multer({ dest: path.join(__dirname, '../public/images') });
 
 router.post('/newDoggie', upload.single('picture'), (req, res, next) => {
-    
-    req.file
-    debugger
 
     const _id = req.session.user._id;
 
@@ -51,6 +48,73 @@ router.post('/newDoggie', upload.single('picture'), (req, res, next) => {
     })
     .catch((err) => {
         res.status(500).json({ message: err });
+    });
+
+});
+
+router.get('/myPack', (req, res, next) => {
+    
+    Pet.find({owner: req.session.user._id})
+    .then((pets) => {
+        res.status(200).json({ pets: pets });
+    })
+    .catch((err) => {
+        res.status(403).json({ message: err });
+    });
+
+});
+
+router.get('/myPack/:id', (req, res, next) => {
+    debugger
+    Pet.findById(req.params.id)
+    .then((pet) => {
+        res.status(200).json({ pet: pet});
+    })
+    .catch((err) => {
+        res.status(403).json({ message: err });
+    });
+});
+
+router.post('/updateDoggie', (req, res, next) => {
+
+    let newPetVals = {name, age, breed, birthday, foodType, BrandOfFood, chipNumber, picture, vaccines, 
+        medicines, injuresOrDiseases, comments} = req.body;
+
+
+    newPetVals = new Pet({
+        name,
+        age,
+        breed,
+        birthday,
+        foodType,
+        BrandOfFood,
+        chipNumber,
+        picture: req.file.filename,
+        vaccines,
+        medicines,
+        injuresOrDiseases,
+        comments,
+        owner
+    });
+
+    Pet.findByIdAndUpdate(req.body.id, newPetVals)
+    .then((response) => {
+        res.status(200).json({ pet: response })
+    })
+    .catch((err) => {
+        res.status(403).json({ message: err });
+    });
+
+});
+
+router.get('/found/:id', (req, res, next) => {
+
+    Pet.findById(req.params.id)
+    .then((pet) => {
+        res.status(200).json({ pet: pet});
+    })
+    .catch((err) => {
+        res.status(403).json({ message: err });
     });
 
 });
