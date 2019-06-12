@@ -1,0 +1,20 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeyPenny/john-dog.git"
+  },
+  "author": "Miguel Sandoval",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeyPenny/john-dog/issues"
+  },
+  "homepage": "https://github.com/MikeyPenny/john-dog#readme"
+}

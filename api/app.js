@@ -41,6 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static('public'));
+app.use(express.static('public/build'));
 
 app.use('/auth', require('./routes/auth'));
 app.use('/petCrud', require('./routes/petCrud'));
