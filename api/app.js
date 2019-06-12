@@ -11,6 +11,11 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const port = process.env.PORT;
 
+var favicon = require('serve-favicon')
+var path = require('path')
+ 
+var app = express()
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
     .then(() => {
