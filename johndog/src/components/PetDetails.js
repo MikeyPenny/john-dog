@@ -13,6 +13,8 @@ export default class PetDetails extends Component {
         this.submitForm = this.submitForm.bind(this);
         this.qrRef = React.createRef();
 
+        
+
     }
 
     state = {
@@ -40,9 +42,12 @@ export default class PetDetails extends Component {
     }
 
     handleChange = (e) => {
+        const { name, value } = e.target;
+        const petDetail = { ...this.state.petDetail }
+        petDetail[name] = value;
         this.setState({
-            [e.target.name]: e.target.value
-        })
+            petDetail
+        });
     }
 
     handleVaccineName = (e) => {
@@ -103,10 +108,17 @@ export default class PetDetails extends Component {
             withCredentials: true
         })
         .then(res =>{
+            debugger
+            let {vaccines, name, medicines, injuresOrDiseases} = res.data.pet
             this.setState({
-                petDetail:res.data.pet,
+                vaccines,
+                name,
+                medicines,
+                injuresOrDiseases,
+                petDetail: res.data.pet,
                 isLoading:false
             })
+            debugger
         })
         .catch((err) => {
             this.setState({ err: err})
@@ -142,7 +154,7 @@ export default class PetDetails extends Component {
     }
 
     render() {
-        debugger
+        
         let vaccinesJsx = this.state.vaccines.map((vaccine, index) => 
             
             <tr key={index.toString()}>
@@ -236,7 +248,7 @@ export default class PetDetails extends Component {
                             <div className="field-body">
                                 <div className="field">
                                     <p className="control is-expanded has-icons-left">    
-                                        <input className="input" type="text" name="name" placeholder="Name" onChange={this.handleChange} 
+                                        <input className="input" type="text" name="name" placeholder="Name" onChange={e => this.handleChange(e)} 
                                         value={this.state.petDetail.name} />
                                         <span className="icon is-small is-left">
                                             <i className="fas fa-user"></i>
@@ -269,7 +281,7 @@ export default class PetDetails extends Component {
                                 <div className="field">
                                     <p className="control is-expanded has-icons-left">    
                                         <input className="input" type="text" name="breed" placeholder="Breed" onChange={this.handleChange} 
-                                            value={this.state.petDetail.age}/>
+                                            value={this.state.petDetail.breed}/>
                                         <span className="icon is-small is-left">
                                             <i className="fas fa-user"></i>
                                         </span>
@@ -313,7 +325,7 @@ export default class PetDetails extends Component {
                             <div className="field-body">
                                 <div className="field">
                                     <p className="control is-expanded has-icons-left">    
-                                        <input className="input" type="text" name="BrandOfFood" placeholder="Brand" onChange={this.handleChange} value={this.state.petDetail.brand} />
+                                        <input className="input" type="text" name="BrandOfFood" placeholder="Brand" onChange={this.handleChange} value={this.state.petDetail.BrandOfFood} />
                                         <span className="icon is-small is-left">
                                             <i className="fas fa-user"></i>
                                         </span>
@@ -380,7 +392,7 @@ export default class PetDetails extends Component {
                             </div>
                         </div>
                         {
-                            this.state.vaccines.length > 0 ? 
+                            this.state.petDetail.vaccines.length > 0 ? 
                             <table className="table">
                                 <thead>
                                     <tr>

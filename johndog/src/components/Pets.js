@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Pets.css';
 import axios from 'axios';
-
+import qs from "qs"
 export default class Pets extends Component {
 
     constructor(props) {
@@ -96,6 +96,13 @@ export default class Pets extends Component {
         let form = this.filenput.current;
         let formData = new FormData(form);
 
+        formData.append("vaccines", qs.stringify(this.state.vaccines))
+        formData.append("medicines", qs.stringify(this.state.medicines))
+        formData.append("injuresOrDiseases", qs.stringify(this.state.injuresOrDiseases));
+     //   formData.append("vaccines", this.state.vaccines.serialize());
+
+
+        debugger
         axios({
             url: `${process.env.REACT_APP_BACK_END_BASE_URL}/petCrud/newDoggie`,
             data: formData,

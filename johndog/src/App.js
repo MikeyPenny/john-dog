@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import Pack from './components/Pack';
 import Pets from './components/Pets';
-import Found from './components/Found';
 import Register from './components/Register';
 import Login from './components/Login';
 import axios from 'axios';
@@ -46,12 +45,12 @@ class App extends Component {
     });
   }
 
-  fetchUser = (user) => {
-    
+  fetchUser = (user) => {   
     this.setState({user: user});
   }
 
   logout() {
+    debugger
     axios({
       method: 'get',
       withCredentials: true,
@@ -96,8 +95,6 @@ class App extends Component {
               <div className="navbar-start">
                 <Link to="/" className="navbar-item">Home</Link>
                 <Link to="/myPack" className="navbar-item">My Pack</Link>
-                
-                <Link to="/pet-details" className="navbar-item">Show Pet Details</Link>
      
                 
                 <div className="navbar-item has-dropdown is-hoverable">
@@ -120,7 +117,7 @@ class App extends Component {
           </div>
 
           <div className="navbar-end">
-          <div className="navbar-item">
+            <div className="navbar-item">
               {
                 !this.state.user ?
                 <div className="buttons">
@@ -133,7 +130,10 @@ class App extends Component {
                 </div>
                 :
                 <div className="buttons">
-                  <p>Welcome {this.state.user.name}</p>
+                  <div className="user">
+                    <p>Welcome {this.state.user.name}</p>
+                  </div>
+                  
                   <Link to="/" className="button is-light" onClick={this.logout} >
                     Log out
                   </Link>
@@ -150,7 +150,7 @@ class App extends Component {
           <Route path="/myPack/:id" render={(props) => <PetDetails {...props} /> } />
           <Route path="/myPack" component={Pack}/>
           <Route path="/newPet" component={Pets}/>
-          <Route path="/found" component={Found}/>
+          {/* <Route path="/found" component={Found}/> */}
           <Route path="/register" component={Register}/>
           <Route path="/login" render={(props) => <Login {...props} fetchUser={this.fetchUser}/>} />
           <Route path="/found/:id" render={(props) => <PetFound {...props} /> } />

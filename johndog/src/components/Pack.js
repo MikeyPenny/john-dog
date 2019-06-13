@@ -41,7 +41,7 @@ export default class MyPack extends Component {
                         <div className="media">
                             <div className="media-left">
                                 <figure className="image is-128x128">
-                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="PlaceholderImage" />
+                                    {/* <img src="https://bulma.io/images/placeholders/96x96.png" alt="PlaceholderImage" /> */}
                                 </figure>
                             </div>
                             <div className="media-content">
